@@ -6,6 +6,7 @@
     <title>2026 北京公园年票打卡助手</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-8">
 
@@ -27,20 +28,57 @@
         <button @click="currentTab = 'planned'" :class="currentTab === 'planned' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">我的计划 ({{ plannedParks.length }})</button>
         <button @click="currentTab = 'visited'" :class="currentTab === 'visited' ? 'bg-orange-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">已打卡</button>
         <button @click="currentTab = 'planning'" :class="currentTab === 'planning' ? 'bg-purple-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">📅 智能规划</button>
+        <button @click="currentTab = 'sync'" :class="currentTab === 'sync' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">🔄 数据同步</button>
     </div>
 
-    <div v-if="currentTab === 'planning'" class="space-y-6">
+    <div v-if="currentTab === 'sync'" class="space-y-6">
+        
+        <div class="bg-white rounded-xl shadow p-6 border-t-4 border-indigo-500">
+            <h3 class="text-lg font-bold text-indigo-700 mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                设备间直接互传 (WebRTC P2P)
+            </h3>
+            <p class="text-sm text-gray-500 mb-4">使用点对点技术，两台设备同时打开此页面，输入对方连接码即可合并数据，数据不经过任何第三方服务器。</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <div class="text-sm text-indigo-800 mb-1">本机的连接码：</div>
+                    <div class="text-2xl font-mono font-bold text-indigo-600 tracking-widest">{{ myPeerId || '获取中...' }}</div>
+                    <div class="text-xs text-indigo-400 mt-2">{{ peerStatus }}</div>
+                </div>
+                
+                <div class="flex flex-col justify-center space-y-3">
+                    <input v-model="targetPeerId" type="text" placeholder="在此输入另一台设备的连接码" class="w-full p-3 border border-indigo-200 rounded font-mono text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button @click="connectAndSync" :disabled="!targetPeerId || !myPeerId" class="w-full bg-indigo-600 text-white py-3 rounded font-bold hover:bg-indigo-700 transition disabled:opacity-50">
+                        发送并合并数据
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 border-t-4 border-gray-400">
+            <h3 class="text-lg font-bold text-gray-700 mb-2">手动文件备份 (JSON)</h3>
+            <p class="text-sm text-gray-500 mb-4">将数据下载为文件保存，或从备份文件恢复数据。</p>
+            <div class="flex space-x-4">
+                <button @click="exportData" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded hover:bg-gray-200 transition font-medium border border-gray-300">
+                    ⬇️ 导出备份 (.json)
+                </button>
+                <button @click="$refs.fileInput.click()" class="flex-1 bg-white text-gray-700 py-3 rounded hover:bg-gray-50 transition font-medium border border-gray-300">
+                    ⬆️ 导入备份
+                </button>
+                <input type="file" ref="fileInput" @change="importData" accept=".json" class="hidden">
+            </div>
+        </div>
+    </div>
+
+    <div v-else-if="currentTab === 'planning'" class="space-y-6">
         <div class="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm">
             💡 以下日历基于你“<b>已加入计划</b>”、“<b>次数未用完</b>”且“<b>还未过期</b>”的景点，自动分配到对应的月份里。
         </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div v-for="month in planningData" :key="month.monthNum" class="bg-white rounded-xl shadow p-5 border-t-4 border-purple-400">
                 <h3 class="text-xl font-bold text-purple-700 mb-3 border-b pb-2">{{ month.monthNum }} 月 <span class="text-sm text-gray-500 font-normal ml-2">可去 {{ month.parks.length }} 个</span></h3>
-                
-                <div v-if="month.parks.length === 0" class="text-gray-400 text-sm py-2">
-                    本月暂无计划内可游览的景点
-                </div>
+                <div v-if="month.parks.length === 0" class="text-gray-400 text-sm py-2">本月暂无计划内可游览的景点</div>
                 <ul v-else class="space-y-2">
                     <li v-for="park in month.parks" :key="park.name" class="flex justify-between items-center text-sm border-b border-gray-50 pb-1 last:border-0">
                         <span class="font-medium text-gray-700 truncate w-1/2">{{ park.name }}</span>
@@ -123,6 +161,7 @@
             const parks = ref([]);
             const currentTab = ref('all');
             
+            // 核心数据存储
             const visitedRecords = ref(JSON.parse(localStorage.getItem('annual_pass_visited')) || {});
             const plannedParks = ref(JSON.parse(localStorage.getItem('annual_pass_planned')) || []);
             const parkNotes = ref(JSON.parse(localStorage.getItem('annual_pass_notes')) || {});
@@ -130,10 +169,139 @@
             const editingNoteName = ref(null);
             const tempNoteText = ref('');
 
+            // 监听保存
             watch(visitedRecords, (newVal) => { localStorage.setItem('annual_pass_visited', JSON.stringify(newVal)); }, { deep: true });
             watch(plannedParks, (newVal) => { localStorage.setItem('annual_pass_planned', JSON.stringify(newVal)); }, { deep: true });
             watch(parkNotes, (newVal) => { localStorage.setItem('annual_pass_notes', JSON.stringify(newVal)); }, { deep: true });
 
+            // ====================== P2P 同步逻辑 (PeerJS) ======================
+            const peer = ref(null);
+            const myPeerId = ref('');
+            const targetPeerId = ref('');
+            const peerStatus = ref('正在连接到信令服务器...');
+
+            const initPeer = () => {
+                // 生成一个容易手输的 4 位随机连接码前缀
+                const randomId = Math.floor(1000 + Math.random() * 9000).toString();
+                const customId = 'park-' + randomId;
+                
+                peer.value = new Peer(customId);
+
+                peer.value.on('open', (id) => {
+                    myPeerId.value = id;
+                    peerStatus.value = '在线等待连接... (可以接收数据)';
+                });
+
+                // 接收到别人连接时的处理
+                peer.value.on('connection', (conn) => {
+                    conn.on('data', (incomingData) => {
+                        handleIncomingData(incomingData);
+                        alert('✅ 成功接收并合并了来自对方的数据！');
+                    });
+                });
+
+                peer.value.on('error', (err) => {
+                    peerStatus.value = '连接出现异常，请刷新重试';
+                    console.error('PeerJS 错误:', err);
+                });
+            };
+
+            const connectAndSync = () => {
+                if (!peer.value || !targetPeerId.value) return;
+                
+                peerStatus.value = `正在连接 ${targetPeerId.value} ...`;
+                const conn = peer.value.connect(targetPeerId.value);
+                
+                conn.on('open', () => {
+                    // 发送本机数据
+                    const localData = {
+                        visited: visitedRecords.value,
+                        planned: plannedParks.value,
+                        notes: parkNotes.value
+                    };
+                    conn.send(localData);
+                    peerStatus.value = '数据发送成功！正在等待对方响应...';
+                    alert('📤 本机数据已发送给对方！对方设备若也想发给你，请在对方设备上点击发送。');
+                });
+
+                conn.on('error', (err) => {
+                    alert('连接失败，请确认对方的连接码是否正确且页面保持打开状态。');
+                    peerStatus.value = '发送失败';
+                });
+            };
+
+            const handleIncomingData = (data) => {
+                if (!data) return;
+                // 数据智能合并逻辑
+                // 1. 合并打卡记录 (取最高次数)
+                if (data.visited) {
+                    for (const [park, count] of Object.entries(data.visited)) {
+                        visitedRecords.value[park] = Math.max(visitedRecords.value[park] || 0, count);
+                    }
+                }
+                // 2. 合并计划列表 (去重合并)
+                if (data.planned) {
+                    const mergedPlan = new Set([...plannedParks.value, ...data.planned]);
+                    plannedParks.value = Array.from(mergedPlan);
+                }
+                // 3. 合并备注 (如果对方有备注，直接覆盖本地该条备注；若本地有对方没有，保留本地)
+                if (data.notes) {
+                    for (const [park, note] of Object.entries(data.notes)) {
+                        if (note.trim() !== '') {
+                            parkNotes.value[park] = note;
+                        }
+                    }
+                }
+            };
+
+            // 当切换到同步 Tab 时初始化 Peer
+            watch(currentTab, (newTab) => {
+                if (newTab === 'sync' && !peer.value) {
+                    initPeer();
+                }
+            });
+
+            // ====================== 手动 JSON 导出/导入逻辑 ======================
+            const exportData = () => {
+                const data = {
+                    visited: visitedRecords.value,
+                    planned: plannedParks.value,
+                    notes: parkNotes.value,
+                    exportDate: new Date().toISOString()
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `北京公园年票数据备份_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+
+            const importData = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if(confirm('检测到备份文件，将合并到当前设备中，是否继续？')) {
+                            handleIncomingData(data); // 复用 P2P 的智能合并逻辑
+                            alert('✅ 数据导入成功！');
+                        }
+                    } catch (err) {
+                        alert('解析 JSON 文件失败，文件可能已损坏。');
+                    }
+                    event.target.value = ''; // 清空 input 以便下次选同一个文件
+                };
+                reader.readAsText(file);
+            };
+
+
+            // ====================== 基础业务逻辑 ======================
             onMounted(async () => {
                 try {
                     const response = await fetch('cleaned_parks_2026.json');
@@ -143,7 +311,6 @@
                 }
             });
 
-            // --- 备注逻辑 ---
             const startEditNote = (name) => {
                 editingNoteName.value = name;
                 tempNoteText.value = parkNotes.value[name] || '';
@@ -194,7 +361,6 @@
                 return sum.toFixed(1);
             });
 
-            // 核心：强兼容性的日期解析函数，避免 Safari 或移动端解析 NaN
             const parseDateToTimestamp = (dateStr, isEnd = false) => {
                 let parts = dateStr.trim().split('.');
                 let y = 2026, m = 1, d = 1;
@@ -203,11 +369,10 @@
                     d = parseInt(parts[1], 10);
                 } else if (parts.length === 3) {
                     y = parseInt(parts[0], 10);
-                    if (y === 26 || y === 0) y = 2026; // 兼容错误录入的 026
+                    if (y === 26 || y === 0) y = 2026; 
                     m = parseInt(parts[1], 10);
                     d = parseInt(parts[2], 10);
                 }
-                // 注意：JS 中 Date 的月份是 0-11
                 const dateObj = new Date(y, m - 1, d);
                 if (isEnd) {
                     dateObj.setHours(23, 59, 59, 999);
@@ -217,24 +382,20 @@
                 return dateObj.getTime();
             };
 
-            // 智能计算景点状态
             const getParkStatus = (validTimeString) => {
                 const today = new Date().getTime();
-                
                 if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) {
                     return { text: '开放中', color: 'text-green-600 bg-green-100', isExpired: false };
                 }
-
                 const ranges = validTimeString.split('&');
                 let isAvailableNow = false;
                 let minDaysToStart = Infinity;
                 let minDaysToEnd = Infinity;
-                let isAllExpired = true; // 默认视为已过期，如果找到任何一个未过期的段落则推翻
+                let isAllExpired = true; 
 
                 for (let range of ranges) {
                     let [startStr, endStr] = range.split('-');
                     if(!startStr || !endStr) continue;
-
                     const start = parseDateToTimestamp(startStr, false);
                     const end = parseDateToTimestamp(endStr, true);
 
@@ -260,47 +421,32 @@
                 }
             };
 
-            // 智能规划：检测某个公园在某个月份是否可用
             const checkAvailableInMonth = (validTimeString, monthNum) => {
                 if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return true;
-                
                 const ranges = validTimeString.split('&');
                 const targetMonthStart = new Date(2026, monthNum - 1, 1).getTime();
-                // 月底最后一天
                 const targetMonthEnd = new Date(2026, monthNum, 0, 23, 59, 59, 999).getTime(); 
 
                 for (let range of ranges) {
                     let [startStr, endStr] = range.split('-');
                     if(!startStr || !endStr) continue;
-                    
                     const start = parseDateToTimestamp(startStr, false);
                     const end = parseDateToTimestamp(endStr, true);
-
-                    // 只要开放时间段和本月有交集即可
-                    if (start <= targetMonthEnd && end >= targetMonthStart) {
-                        return true;
-                    }
+                    if (start <= targetMonthEnd && end >= targetMonthStart) return true;
                 }
                 return false;
             };
 
-            // 规划面板数据
             const planningData = computed(() => {
                 let months = [];
-                // 只看：已计划 + 次数未用完 + 还没过期的景点
                 let activePlannedParks = parks.value.filter(p => isPlanned(p.name) && !isFinished(p) && !getParkStatus(p.valid_time).isExpired);
-
                 for (let i = 1; i <= 12; i++) {
                     let availableParksInThisMonth = activePlannedParks.filter(p => checkAvailableInMonth(p.valid_time, i));
-                    months.push({
-                        monthNum: i,
-                        parks: availableParksInThisMonth
-                    });
+                    months.push({ monthNum: i, parks: availableParksInThisMonth });
                 }
                 return months;
             });
 
-            // 过滤和排序核心逻辑
             const filteredParks = computed(() => {
                 let result = parks.value;
                 if (currentTab.value === 'planned') {
@@ -308,26 +454,20 @@
                 } else if (currentTab.value === 'visited') {
                     result = result.filter(p => getVisitCount(p.name) > 0);
                 }
-                
                 return result.sort((a, b) => {
-                    // 分数越低越排在前面
-                    // 1: 正常待游览 (未完成, 未过期)
-                    // 2: 已经打卡完成的 (isFinished)
-                    // 3: 彻底错过/过期的 (isExpired)
                     const getWeight = (park) => {
                         if (getParkStatus(park.valid_time).isExpired) return 3;
                         if (isFinished(park)) return 2;
                         return 1;
                     };
-                    
                     return getWeight(a) - getWeight(b);
                 });
             });
 
             const getBorderColor = (park) => {
                 const status = getParkStatus(park.valid_time);
-                if (status.isExpired) return 'border-gray-300 opacity-60 bg-gray-50'; // 过期置灰
-                if (isFinished(park)) return 'border-gray-200 opacity-60 bg-gray-50'; // 完成置灰
+                if (status.isExpired) return 'border-gray-300 opacity-60 bg-gray-50'; 
+                if (isFinished(park)) return 'border-gray-200 opacity-60 bg-gray-50'; 
                 if (getVisitCount(park.name) > 0) return 'border-orange-400';
                 if (isPlanned(park.name)) return 'border-blue-400';
                 return 'border-green-400';
@@ -338,7 +478,8 @@
                 parkNotes, editingNoteName, tempNoteText, startEditNote, saveNote,
                 planningData,
                 getVisitCount, isPlanned, togglePlan, addVisit, removeVisit,
-                filteredParks, getBorderColor, isFinished, getParkStatus
+                filteredParks, getBorderColor, isFinished, getParkStatus,
+                myPeerId, targetPeerId, peerStatus, connectAndSync, exportData, importData
             };
         }
     }).mount('#app');
