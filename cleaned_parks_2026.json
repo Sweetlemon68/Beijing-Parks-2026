@@ -1,0 +1,1318 @@
+[
+    {"region": "海淀区", "name": "颐和园", "price": "20", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "东城区", "name": "天坛公园", "price": "10", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "北京动物园", "price": "10", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "北海公园", "price": "5", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "陶然亭", "price": "2", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "东城区", "name": "中山公园", "price": "3", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "海淀区", "name": "玉渊潭公园", "price": "2", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "景山公园", "price": "2", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "海淀区", "name": "国家植物园北园", "price": "10", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "海淀区", "name": "香山公园", "price": "5", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "朝阳区", "name": "水立方", "price": "30", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "东城区", "name": "地坛公园", "price": "2", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "大观园", "price": "40", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "海淀区", "name": "百望山森林公园", "price": "6", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "西城区", "name": "双秀公园", "price": "0.2", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {"region": "石景山区", "name": "北京国际雕塑园", "price": "5", "limit": 0, "valid_time": "2026.1.1-2027.1.31", "rules": "市属公园", "notes": "", "visited_count": 0},
+    {
+        "region": "昌平区",
+        "name": "蟒山国家森林公园",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.3.1-8.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "北京后花园(白虎涧)风景区",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "团队无效 | 国家法定节假日及调休期间持卡无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "居庸关长城",
+        "price": "40",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "仅含日场；需携带本人有效身份证入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "长陵",
+        "price": "45",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "需携带本人有效身份证入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "昭陵",
+        "price": "35",
+        "limit": 3,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "需携带本人有效身份证入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "神路",
+        "price": "30",
+        "limit": 3,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "需携带本人有效身份证入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "银山塔林",
+        "price": "20",
+        "limit": 3,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "需携带本人有效身份证入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "熊猫一二三",
+        "price": "59",
+        "limit": 2,
+        "valid_time": "2026.4.1-8.31",
+        "rules": "年卡仅限持卡本人使用，儿童也需持本人年卡入园； | 国家法定节假日及调休期间及六一儿童节当天持卡无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "袋鼠一二三",
+        "price": "68",
+        "limit": 2,
+        "valid_time": "2026.4.1-8.31",
+        "rules": "年卡仅限持卡本人使用，儿童也需持本人年卡入园； | 国家法定节假日及调休期间及六一儿童节当天持卡无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "燕子湖自然风景区",
+        "price": "18",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "龙脉温泉竹林",
+        "price": "150",
+        "limit": 1,
+        "valid_time": "2026.1.1-6.30",
+        "rules": "仅含首道门票（室外温泉），不含二次付费项目；用户须到竹林温泉前台核销并领取更衣柜钥匙和浴巾； | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "静之湖石涌泉汤泉",
+        "price": "198",
+        "limit": 1,
+        "valid_time": "2026.5.1-10.31",
+        "rules": "国家法定节假日及调休及小长假期间持卡无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "北方轻武器博物馆",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "2.16-2.19闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "小汤山农业园",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-5.30",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "造梦空间蹦床乐园",
+        "price": "148",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "限3小时(超时按门市价自付)含射箭体验一次，自带或现场购买防滑袜，如在场馆产生其他消费需自行付费。年卡仅限本人使用，儿童也需持本人年卡入园；空翻、练习板、蹦床教学等风险专业动作不能使用；每人须缴纳5元/人个人保险，当天有效； | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "大岭沟猕猴桃谷",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.4.1-10.31",
+        "rules": "国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "虎峪风景区",
+        "price": "15",
+        "limit": 0,
+        "valid_time": "2026.4.1-10.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "大杨山森林公园",
+        "price": "15",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.30",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "昌平区",
+        "name": "林下亲子园",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.4.1-10.30",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "海淀区",
+        "name": "北京凤凰岭自然风景区",
+        "price": "25",
+        "limit": 3,
+        "valid_time": "2026.1.1-08.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "海淀区",
+        "name": "阳台山",
+        "price": "10",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "海淀区",
+        "name": "西山国家森林公园",
+        "price": "10",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "海淀区",
+        "name": "京西皮影非遗园",
+        "price": "100",
+        "limit": 1,
+        "valid_time": "2026.01.01-2026.12.31",
+        "rules": "平日不可使用，周末及法定节假日可用(上班调休日除外)。 | 含参观皮影艺术馆(北京龙在天皮影博物馆，山海经皮影博物馆，一带一路皮影艺术馆，中国传统故事皮影博物馆)及观看皮影戏一场(10:00和14:00两场演出选一场)",
+        "notes": "2月10日-3月3日闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "首钢大跳台",
+        "price": "58",
+        "limit": 1,
+        "valid_time": "2026.1.1-4.30",
+        "rules": "仅含云顶观景平台和斜行电梯；需携带本人有效证件入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "首钢一高炉·SoReal科幻乐园",
+        "price": "139",
+        "limit": 1,
+        "valid_time": "2026.1.01-8.30",
+        "rules": "周一闭馆；工作日上午闭园不接待；3周岁(不含)以上需购票入园，不满16周岁或60周岁以上游客需由监护人陪同入园；包含入园观光游览，当日凭副券可体验场内项目1个（2F少数派冒险、2F陨星迷航、2F银翼领航、2F异星矩阵、2F星谷救援、2F极限翻转、2F深空密令、3F齐天训练营、3F流星飞车、3F太空骑兵、3F奇境穿梭、4F宇宙飞车、4F尼奥的小屋、4F超时空影院、4F零界战场、4F尖叫小队、4F寂静空间、5F克莱因挑战）",
+        "notes": "3月4日-3月6日闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "石景山游乐园飞越世界",
+        "price": "88",
+        "limit": 1,
+        "valid_time": "2026.5.1-10.31",
+        "rules": "需在南门飞览天下处换票 | （换票时间9:00-16:00） | ，园内举行大型活动不接待（活动以景区公示为准）； | 周一闭馆；国家法定节假日及调休期间不可使用；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "石景山游乐园",
+        "price": "10",
+        "limit": 1,
+        "valid_time": "2026.5.1-10.31",
+        "rules": "需在南门飞览天下处换票 | （换票时间9:00-16:00） | ，园内举行大型活动不接待（活动以景区公示为准）； | 周一闭馆；国家法定节假日及调休期间不可使用；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "纪晓岚故居",
+        "price": "10",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "紫檀博物馆",
+        "price": "50",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "2.15-2.18闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "熊猫亲子乐园",
+        "price": "49.9",
+        "limit": 1,
+        "valid_time": "2026.4.1-8.31",
+        "rules": "身高80cm以下儿童免费；不含单收费项目； | 国家法定节假日及调休期间不可使用",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "亮马河风情水岸游船(日航)",
+        "price": "39",
+        "limit": 1,
+        "valid_time": "2026.3.15-8.31",
+        "rules": "年卡仅含蓝色港湾-蓝色港湾小环线船票，需在蓝色港湾码头刷卡乘船；恶劣天气停航不接待；大风天气暂停接待，请出行前致电景区4008922992咨询是否接待",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石景山区",
+        "name": "蟹岛冰雪嘉年华",
+        "price": "120",
+        "limit": 2,
+        "valid_time": "2026.01.01-02.25",
+        "rules": "包含:门票、雪地旋转、香蕉船、雪地迷宫；因景区冰雪路面的特殊性，为了您的安全，55岁以上老人景区谢绝入内",
+        "notes": "因天气原因，2月19日起闭园",
+        "visited_count": 0
+    },
+    {
+        "region": "丰台区",
+        "name": "绿野仙踪郊野乐园",
+        "price": "58",
+        "limit": 2,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "",
+        "notes": "16日-18日闭园",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "瑞麟湾度假酒店温泉",
+        "price": "268",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "仅含首道门票（室外温泉），不含二次付费项目；用户须到酒店温泉前台办理入园； | 仅包含夜场温泉水世界(17:00-22:00) | ；1米2(含)以下儿童免费(1米2以上全票)，一名成人限携一名免票儿童；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "莲花山滑雪场",
+        "price": "128",
+        "limit": 1,
+        "valid_time": "2026.1.1-2.25",
+        "rules": "日场08:30-16:30(限时6小时)、夜场17:30-21:30； | 日场仅限工作日使用，周末，元旦，春节期间法定节假日及调休期间日场不可使用。除夕（2月16日）不接待 | 包含免费停车及门票、雪鞋、雪板、雪仗、魔毯、缆车、雪道的使用。滑雪需缴纳300元押金，如有其他租赁项目由押金中扣除。滑雪者进入雪道需佩带头盔，需自戴滑雪专用头盔或现场租赁30元/顶/次；",
+        "notes": "2月24日起高级道及夜场关闭，仅限周一到周五日场使用（日场时间8:30-17:00;停止验票时间:15:30;清场时间:16:30）",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "乔波室内滑雪场",
+        "price": "138",
+        "limit": 1,
+        "valid_time": "2026.1.1-4.30",
+        "rules": "营业时间：平日10:00-17:00，周末：9:00-17:00。限时2小时(超时2元/分钟，上不封顶)包含雪鞋、雪板(单双板2选1不可中途更换)、雪仗、拖牵使用费(需交押金500元，如有其他消费从押金中扣除)；需携带本人有效证件一同入园 | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "考拉大冒险",
+        "price": "90",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.30",
+        "rules": "仅限18周岁以下儿童持本人年卡游玩，家长可持年卡陪同入园，无年卡家长需购买50元入园门票，单独成人儿童不接待，儿童成人均需预约成功后，刷本人年卡核销入园；",
+        "notes": "2月16日-2月17日不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "未来亲子网绳乐园",
+        "price": "138",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "年卡仅限本人使用，儿童也需持本人年卡入园；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "北京国际鲜花港",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-8.30",
+        "rules": "年卡不含春、秋花季和大型活动门票，但可一人一卡 |                                             按市价补差价（具体价格以目录公示为准）入园，具体活动举办时间以景区公示为准",
+        "notes": "2月17日到3月8日花灯活动持卡需补20元/人入园",
+        "visited_count": 0
+    },
+    {
+        "region": "顺义区",
+        "name": "河北村民俗文化体验园",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "仅限日场，夜场无效； | 国家法定节假日及调休期间、大年初一到十五持年卡无效，但可享受门票五折",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "八达岭森林公园",
+        "price": "33",
+        "limit": 0,
+        "valid_time": "2026.6.1-8.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "古崖居",
+        "price": "55",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "春节、清明、五一、十一法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "碓臼石景区",
+        "price": "38",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "包含冰雪乐园，需补差价3元/人",
+        "notes": "冬日活动结束暂时闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "百里山水画廊-乌龙峡景区",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.4.10-10.31",
+        "rules": "国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "百里山水画廊-硅化木景区",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.4.10-10.31",
+        "rules": "国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "百里山水画廊-朝阳寺",
+        "price": "15",
+        "limit": 0,
+        "valid_time": "2026.4.10-10.31",
+        "rules": "国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "九眼楼生态长城展示区",
+        "price": "40",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "延庆区",
+        "name": "青山园",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "五一、十一法定节假日及调休持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "密云区",
+        "name": "玫瑰情园",
+        "price": "33",
+        "limit": 2,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "国家法定节假日及调休期间持卡无效",
+        "notes": "冬季闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "密云区",
+        "name": "仙居谷",
+        "price": "36",
+        "limit": 0,
+        "valid_time": "2026.4.15-11.15",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "密云区",
+        "name": "雾灵西峰",
+        "price": "40",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.15",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "密云区",
+        "name": "排山汽车研学基地",
+        "price": "70",
+        "limit": 2,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "10人以上可以预约讲解，预约讲解需提前电话预约：13801031567 | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "密云区",
+        "name": "北京传统插花博物馆",
+        "price": "50",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "国家法定节假日及调休期间需提前电话预约13801380896；年卡仅含门票，不含二次消费；如遇雨雪等恶劣天气暂时停业",
+        "notes": "2.15-2.23闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "怀柔区",
+        "name": "慕田峪长城",
+        "price": "45",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "怀柔区",
+        "name": "灵慧山",
+        "price": "33",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "不能携宠入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "怀柔区",
+        "name": "石门山景区",
+        "price": "79",
+        "limit": 1,
+        "valid_time": "2026.4.1-10.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "怀柔区",
+        "name": "探险星球成长乐园",
+        "price": "79",
+        "limit": 1,
+        "valid_time": "2026.4.1-10.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "房山区",
+        "name": "银狐洞",
+        "price": "65",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "年卡包含暗河船票1次；团队无效； | ；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "房山区",
+        "name": "孤山寨",
+        "price": "75",
+        "limit": 1,
+        "valid_time": "2026.3.15-10.25",
+        "rules": "8:00-15:00；年卡含铁索桥",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "房山区",
+        "name": "昊天滑雪场",
+        "price": "150",
+        "limit": 2,
+        "valid_time": "2026.01.01-02.25",
+        "rules": "含雪具，限时2小时（超时30元/时/人）为了确保每一位宾客的安全，所有入园人员需现场购买本人保险10元；所有滑雪客人必须佩戴头盔，客人可自带或者现场租用头盔每个20元/个",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "房山区",
+        "name": "昊天冰雪乐园",
+        "price": "120",
+        "limit": 2,
+        "valid_time": "2026.01.01-02.25",
+        "rules": "每人10元保险费；包含雪地香蕉船、雪地旋转、小火车3个项目",
+        "notes": "因天气原因，2月22日闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "门头沟区",
+        "name": "百花山",
+        "price": "40",
+        "limit": 1,
+        "valid_time": "2026.4.28-10.15",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "门头沟区",
+        "name": "京西古道",
+        "price": "20",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "2.17-2.20闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "门头沟区",
+        "name": "灵水举人村",
+        "price": "20",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "平谷区",
+        "name": "京东大溶洞",
+        "price": "80",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "需至换票处换票入园 | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "大兴区",
+        "name": "留民营生态园",
+        "price": "99",
+        "limit": 0,
+        "valid_time": "2026.1.1-08.31",
+        "rules": "每周一、雨雪天、春节法定节假日及调休期间、大型活动、暑假戏水乐园期间持卡无效 | 国家法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "大兴区",
+        "name": "世界月季主题公园",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "2月6日-3月3日元宵节活动期间，持卡用户参与需补差价20元/人",
+        "visited_count": 0
+    },
+    {
+        "region": "大兴区",
+        "name": "北京南路烧酒文化博物馆",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-08.31",
+        "rules": "接待时间08:00-11:00、13:00-16:00；凭本人成年身份证可免费领取白酒一瓶(免1次)",
+        "notes": "2.10-2.25闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "通州区",
+        "name": "唐人坊人偶艺术博物馆",
+        "price": "98",
+        "limit": 2,
+        "valid_time": "2026.1.1-10.30",
+        "rules": "周一周日及国家法定节假日及调休期间闭馆； | 开馆时间每日4场讲解（10点11点14点15点）为了您的出行体验，请提前1天咨询景区讲解场次，以防错过",
+        "notes": "2.9-2.26博物馆闭馆，2.27正常开放",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "独乐寺",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "最晚入园时间16:00； | 2月14日-2月23日不接待；需提前一天拨打400-0505-139办理换票，入园须携带本人年卡、本人有效证件与换票凭证方可入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "蓟州文庙",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "最晚入园时间16:00； | 2月14日-2月23日不接待；需提前一天拨打400-0505-139办理换票，入园须携带本人年卡、本人有效证件与换票凭证方可入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "蓟州白塔寺",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "最晚入园时间16:00； | 2月14日-2月23日不接待；需提前一天拨打400-0505-139办理换票，入园须携带本人年卡、本人有效证件与换票凭证方可入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "鲁班庙",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "最晚入园时间16:00； | 2月14日-2月23日不接待；需提前一天拨打400-0505-139办理换票，入园须携带本人年卡、本人有效证件与换票凭证方可入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "盘山",
+        "price": "78",
+        "limit": 1,
+        "valid_time": "2026.3.1-2026.3.31 & 2026.6.1-2026.6.30",
+        "rules": "必须持本人身份证与年卡身份信息一致方可验证入园，否则禁止入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "文庙博物馆",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "9:00-15:30；周一闭馆",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "杨柳古镇石家大院",
+        "price": "25",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "8:30-16:00",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "杨柳青年画馆",
+        "price": "10",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "8:30-16:00",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "杨柳青民俗文化馆",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-9.30",
+        "rules": "8:30-16:30",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "精武门中华武林园",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "庙会期间和重大活动不接待",
+        "notes": "2月16日-2月20日闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "曙光水镇",
+        "price": "50",
+        "limit": 1,
+        "valid_time": "2026.1.1-9.30",
+        "rules": "含蹦床一次，用户须自备或现场买蹦床袜其他二消项目自费",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "天津",
+        "name": "崇泰庄园",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "年卡仅含门票，庄园内其余收费项目，需要另行购买",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "廊坊",
+        "name": "国安第一城",
+        "price": "50",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "周一闭园，周二到周日开园时间13:00一20:00；十一、春节法定节假日及调休期间持卡无效、重大活动期间不可入园",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "滦河神韵",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.7",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "黄龙山庄",
+        "price": "78",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.10",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "大境门（登长城）",
+        "price": "13",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "鸡鸣山",
+        "price": "54",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "8:30-16:30；1.2米以下儿童及70周岁以上老年人免费； | 大年初一到初九、清明、五一法定节假日及调休期间持卡无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "国玉陶瓷文化园",
+        "price": "20",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "张家口",
+        "name": "白河源",
+        "price": "38",
+        "limit": 0,
+        "valid_time": "2026.6.1-8.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "清西陵—泰陵",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-06.30",
+        "rules": "统一在综合服务区游客中心刷卡换票；6人（含）以上团队无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "清西陵—崇陵",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-06.30",
+        "rules": "统一在综合服务区游客中心刷卡换票；6人（含）以上团队无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "清西陵—昌西陵",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-06.30",
+        "rules": "统一在综合服务区游客中心刷卡换票；6人（含）以上团队无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "清西陵—慕陵",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-06.30",
+        "rules": "统一在综合服务区游客中心刷卡换票；6人（含）以上团队无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "清西陵—永福寺",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-06.30",
+        "rules": "统一在综合服务区游客中心刷卡换票；6人（含）以上团队无效；",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "腰山王氏庄园",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "云蒙山皇家森林公园",
+        "price": "45",
+        "limit": 1,
+        "valid_time": "2026.5.01-9.30",
+        "rules": "国家法定节假日及调休期间持卡无效； | 团队无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "曲阳北岳庙",
+        "price": "40",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "刘伶醉景区",
+        "price": "38",
+        "limit": 0,
+        "valid_time": "2026.1.1-5.31",
+        "rules": "",
+        "notes": "2月13日-2月23日闭园不接待",
+        "visited_count": 0
+    },
+    {
+        "region": "保定",
+        "name": "雄安保府酒文化园",
+        "price": "25",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "承德避暑山庄",
+        "price": "130",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "请到丽正门刷卡入园；请携带本人有效证件前往；团队无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "金山岭长城",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "南天丽景",
+        "price": "70",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.15",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "绿溪谷",
+        "price": "138",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.7",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "神龙山风景区",
+        "price": "90",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.7",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "夹墙沟风景区",
+        "price": "50",
+        "limit": 0,
+        "valid_time": "2026.4.15-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "白云古洞",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.5.10-10.10",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "九龙松",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.5.10-10.10",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "甘露禅院",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.5.10-10.10",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "金山湖龙脉水魔方",
+        "price": "30",
+        "limit": 0,
+        "valid_time": "2026.5.1-10.15",
+        "rules": "仅含首道门票不含二次付费项目；团队无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "双石井酒庄",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "团队无效",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "山楂博物馆",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "含人工讲解",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "三线博物馆",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "含人工讲解",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "根雕艺术博物馆",
+        "price": "60",
+        "limit": 1,
+        "valid_time": "2026.1.1-8.31",
+        "rules": "含人工讲解",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "承德",
+        "name": "岸芷汀兰露营基地",
+        "price": "120",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "含皮筏子20分钟，水枪免费使用，损坏照价赔偿 | 免费垂钓，鱼按斤售卖(价格以营地为主)自助免费洗车",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "天桂山",
+        "price": "65",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "秋山风景区",
+        "price": "50",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "腾龙山",
+        "price": "40",
+        "limit": 0,
+        "valid_time": "2026.3.15-11.14",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "黄金寨原生态旅游区",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "王母山风景区",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "黑山大峡谷",
+        "price": "65",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "伏羲台",
+        "price": "15",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "迪山云顶风景区",
+        "price": "60",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "秦皇古驿道",
+        "price": "25",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "石家庄",
+        "name": "民族风情园",
+        "price": "80",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "唐山",
+        "name": "遵化万佛园",
+        "price": "50",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "唐山",
+        "name": "成山景区",
+        "price": "40",
+        "limit": 0,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "邯郸",
+        "name": "广平府署",
+        "price": "108",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "邯郸",
+        "name": "广府古城墙",
+        "price": "20",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "邯郸",
+        "name": "杨露禅故居",
+        "price": "20",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "邯郸",
+        "name": "武禹襄故居",
+        "price": "20",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    },
+    {
+        "region": "邯郸",
+        "name": "弘济桥",
+        "price": "20",
+        "limit": 1,
+        "valid_time": "2026.1.1-12.31",
+        "rules": "",
+        "notes": "",
+        "visited_count": 0
+    }
+]
