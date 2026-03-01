@@ -10,7 +10,7 @@
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-8">
 
-<div id="app" class="max-w-4xl mx-auto">
+<div id="app" class="max-w-4xl mx-auto pb-20">
     <header class="bg-white rounded-xl shadow p-6 mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
             <h1 class="text-2xl font-bold text-green-600">🌲 2026 北京公园年票助手</h1>
@@ -27,26 +27,20 @@
         <button @click="currentTab = 'all'" :class="currentTab === 'all' ? 'bg-green-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">所有景点</button>
         <button @click="currentTab = 'planned'" :class="currentTab === 'planned' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">我的计划 ({{ plannedParks.length }})</button>
         <button @click="currentTab = 'visited'" :class="currentTab === 'visited' ? 'bg-orange-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">已打卡</button>
-        <button @click="currentTab = 'planning'" :class="currentTab === 'planning' ? 'bg-purple-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">📅 智能规划</button>
+        <button @click="currentTab = 'planning'" :class="currentTab === 'planning' ? 'bg-purple-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">📅 智能日历</button>
         <button @click="currentTab = 'sync'" :class="currentTab === 'sync' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">🔄 数据同步</button>
     </div>
 
     <div v-if="currentTab === 'sync'" class="space-y-6">
-        
         <div class="bg-white rounded-xl shadow p-6 border-t-4 border-indigo-500">
-            <h3 class="text-lg font-bold text-indigo-700 mb-2 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-                设备间直接互传 (WebRTC P2P)
-            </h3>
+            <h3 class="text-lg font-bold text-indigo-700 mb-2 flex items-center">设备间直接互传 (WebRTC P2P)</h3>
             <p class="text-sm text-gray-500 mb-4">使用点对点技术，两台设备同时打开此页面，输入对方连接码即可合并数据，数据不经过任何第三方服务器。</p>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-indigo-50 p-4 rounded-lg">
                     <div class="text-sm text-indigo-800 mb-1">本机的连接码：</div>
                     <div class="text-2xl font-mono font-bold text-indigo-600 tracking-widest">{{ myPeerId || '获取中...' }}</div>
                     <div class="text-xs text-indigo-400 mt-2">{{ peerStatus }}</div>
                 </div>
-                
                 <div class="flex flex-col justify-center space-y-3">
                     <input v-model="targetPeerId" type="text" placeholder="在此输入另一台设备的连接码" class="w-full p-3 border border-indigo-200 rounded font-mono text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button @click="connectAndSync" :disabled="!targetPeerId || !myPeerId" class="w-full bg-indigo-600 text-white py-3 rounded font-bold hover:bg-indigo-700 transition disabled:opacity-50">
@@ -55,43 +49,68 @@
                 </div>
             </div>
         </div>
-
         <div class="bg-white rounded-xl shadow p-6 border-t-4 border-gray-400">
             <h3 class="text-lg font-bold text-gray-700 mb-2">手动文件备份 (JSON)</h3>
-            <p class="text-sm text-gray-500 mb-4">将数据下载为文件保存，或从备份文件恢复数据。</p>
             <div class="flex space-x-4">
-                <button @click="exportData" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded hover:bg-gray-200 transition font-medium border border-gray-300">
-                    ⬇️ 导出备份 (.json)
-                </button>
-                <button @click="$refs.fileInput.click()" class="flex-1 bg-white text-gray-700 py-3 rounded hover:bg-gray-50 transition font-medium border border-gray-300">
-                    ⬆️ 导入备份
-                </button>
+                <button @click="exportData" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded hover:bg-gray-200 transition font-medium border border-gray-300">⬇️ 导出备份 (.json)</button>
+                <button @click="$refs.fileInput.click()" class="flex-1 bg-white text-gray-700 py-3 rounded hover:bg-gray-50 transition font-medium border border-gray-300">⬆️ 导入备份</button>
                 <input type="file" ref="fileInput" @change="importData" accept=".json" class="hidden">
             </div>
         </div>
     </div>
 
     <div v-else-if="currentTab === 'planning'" class="space-y-6">
-        <div class="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm">
-            💡 以下日历基于你“<b>已加入计划</b>”、“<b>次数未用完</b>”且“<b>还未过期</b>”的景点，自动分配到对应的月份里。
+        <div class="bg-purple-50 p-4 rounded-lg text-purple-800 text-sm flex justify-between items-center">
+            <span>💡 颜色越深，代表当天可以游览的“计划内”公园越多。点击日期可查看详情。</span>
+            <div class="flex space-x-1 text-xs items-center">
+                <span class="w-3 h-3 bg-gray-100 rounded inline-block border"></span> 0
+                <span class="w-3 h-3 bg-purple-200 rounded inline-block ml-2"></span> 1-2
+                <span class="w-3 h-3 bg-purple-400 rounded inline-block ml-2"></span> 3-5
+                <span class="w-3 h-3 bg-purple-600 rounded inline-block ml-2"></span> 6+
+            </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div v-for="month in planningData" :key="month.monthNum" class="bg-white rounded-xl shadow p-5 border-t-4 border-purple-400">
-                <h3 class="text-xl font-bold text-purple-700 mb-3 border-b pb-2">{{ month.monthNum }} 月 <span class="text-sm text-gray-500 font-normal ml-2">可去 {{ month.parks.length }} 个</span></h3>
-                <div v-if="month.parks.length === 0" class="text-gray-400 text-sm py-2">本月暂无计划内可游览的景点</div>
-                <ul v-else class="space-y-2">
-                    <li v-for="park in month.parks" :key="park.name" class="flex justify-between items-center text-sm border-b border-gray-50 pb-1 last:border-0">
-                        <span class="font-medium text-gray-700 truncate w-1/2">{{ park.name }}</span>
-                        <span class="text-xs text-gray-500 text-right w-1/2">{{ park.valid_time }}</span>
-                    </li>
-                </ul>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div v-for="month in calendarData" :key="month.month" class="bg-white rounded-xl shadow p-4 border-t-4 border-purple-400">
+                <h3 class="text-lg font-bold text-purple-700 mb-3 text-center">2026年 {{ month.month }} 月</h3>
+                <div class="grid grid-cols-7 text-center text-xs text-gray-400 mb-1 font-bold">
+                    <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+                </div>
+                <div class="grid grid-cols-7 gap-1">
+                    <div v-for="(day, index) in month.days" :key="index" 
+                         @click="selectDay(month.month, day)"
+                         :class="['h-8 flex items-center justify-center rounded text-sm transition', day.empty ? 'bg-transparent' : 'cursor-pointer hover:ring-2 ring-purple-300', getCalendarColor(day.count)]">
+                        <span v-if="!day.empty">{{ day.date }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="selectedDay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+                <div class="bg-purple-600 p-4 flex justify-between items-center">
+                    <h3 class="text-white font-bold text-lg">2026年 {{ selectedDay.month }}月{{ selectedDay.date }}日 行程</h3>
+                    <button @click="selectedDay = null" class="text-white hover:text-gray-200">✖</button>
+                </div>
+                <div class="p-4 max-h-96 overflow-y-auto">
+                    <p v-if="selectedDay.parks.length === 0" class="text-gray-500 text-center py-4">今天暂无开放的计划景点</p>
+                    <ul v-else class="space-y-3">
+                        <li v-for="park in selectedDay.parks" :key="park.name" class="border-b pb-2 last:border-0">
+                            <div class="font-bold text-gray-800">{{ park.name }} <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-normal">{{ park.region }}</span></div>
+                            <div class="text-xs text-gray-500 mt-1">开放期：{{ park.valid_time }}</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div v-for="park in filteredParks" :key="park.name" class="bg-white rounded-xl shadow p-5 border-l-4 transition hover:shadow-md" :class="getBorderColor(park)">
-            <div class="flex justify-between items-start">
+        <div v-for="park in filteredParks" :key="park.name" class="bg-white rounded-xl shadow p-5 border-l-4 transition hover:shadow-md relative overflow-hidden" :class="getBorderColor(park)">
+            
+            <div v-if="isPlanned(park.name)" class="absolute -right-6 top-3 bg-blue-500 text-white text-[10px] font-bold py-1 px-8 transform rotate-45 shadow-sm">已计划</div>
+
+            <div class="flex justify-between items-start pr-4">
                 <div>
                     <h2 class="text-lg font-bold" :class="isFinished(park) || getParkStatus(park.valid_time).isExpired ? 'text-gray-400' : 'text-gray-800'">
                         {{ park.name }}
@@ -121,7 +140,7 @@
                 <div class="whitespace-pre-wrap flex-1"><span class="text-yellow-600">📝</span> {{ parkNotes[park.name] }}</div>
             </div>
 
-            <div v-if="editingNoteName === park.name" class="mt-3 bg-yellow-50 p-3 rounded">
+            <div v-if="editingNoteName === park.name" class="mt-3 bg-yellow-50 p-3 rounded shadow-inner">
                 <textarea v-model="tempNoteText" rows="2" class="w-full p-2 border border-yellow-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-500 text-sm" placeholder="输入交通方式、必带物品等备注..."></textarea>
                 <div class="flex justify-end mt-2 space-x-2">
                     <button @click="editingNoteName = null" class="px-3 py-1 text-sm text-gray-500 hover:text-gray-700 bg-gray-200 rounded">取消</button>
@@ -132,7 +151,7 @@
             <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                 <div class="flex space-x-3">
                     <button @click="togglePlan(park.name)" class="text-sm font-medium transition" :class="isPlanned(park.name) ? 'text-blue-600' : 'text-gray-400 hover:text-blue-500'">
-                        {{ isPlanned(park.name) ? '★ 已计划' : '☆ 加计划' }}
+                        {{ isPlanned(park.name) ? '★ 移出计划' : '☆ 加计划' }}
                     </button>
                     <button v-if="editingNoteName !== park.name" @click="startEditNote(park.name)" class="text-sm text-gray-400 hover:text-yellow-600 transition">
                         {{ parkNotes[park.name] ? '编辑备注' : '添加备注' }}
@@ -144,9 +163,7 @@
                     <button @click="addVisit(park)" :disabled="isFinished(park) || getParkStatus(park.valid_time).isExpired" class="bg-orange-100 text-orange-600 px-3 py-1 rounded hover:bg-orange-200 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium">
                         打卡+1
                     </button>
-                    <button v-if="getVisitCount(park.name) > 0" @click="removeVisit(park)" class="text-gray-400 hover:text-red-500 text-sm px-1">
-                        撤销
-                    </button>
+                    <button v-if="getVisitCount(park.name) > 0" @click="removeVisit(park)" class="text-gray-400 hover:text-red-500 text-sm px-1">撤销</button>
                 </div>
             </div>
         </div>
@@ -161,147 +178,19 @@
             const parks = ref([]);
             const currentTab = ref('all');
             
-            // 核心数据存储
+            // 数据存储
             const visitedRecords = ref(JSON.parse(localStorage.getItem('annual_pass_visited')) || {});
             const plannedParks = ref(JSON.parse(localStorage.getItem('annual_pass_planned')) || []);
             const parkNotes = ref(JSON.parse(localStorage.getItem('annual_pass_notes')) || {});
             
             const editingNoteName = ref(null);
             const tempNoteText = ref('');
+            const selectedDay = ref(null); // 日历选中状态
 
-            // 监听保存
             watch(visitedRecords, (newVal) => { localStorage.setItem('annual_pass_visited', JSON.stringify(newVal)); }, { deep: true });
             watch(plannedParks, (newVal) => { localStorage.setItem('annual_pass_planned', JSON.stringify(newVal)); }, { deep: true });
             watch(parkNotes, (newVal) => { localStorage.setItem('annual_pass_notes', JSON.stringify(newVal)); }, { deep: true });
 
-            // ====================== P2P 同步逻辑 (PeerJS) ======================
-            const peer = ref(null);
-            const myPeerId = ref('');
-            const targetPeerId = ref('');
-            const peerStatus = ref('正在连接到信令服务器...');
-
-            const initPeer = () => {
-                // 生成一个容易手输的 4 位随机连接码前缀
-                const randomId = Math.floor(1000 + Math.random() * 9000).toString();
-                const customId = 'park-' + randomId;
-                
-                peer.value = new Peer(customId);
-
-                peer.value.on('open', (id) => {
-                    myPeerId.value = id;
-                    peerStatus.value = '在线等待连接... (可以接收数据)';
-                });
-
-                // 接收到别人连接时的处理
-                peer.value.on('connection', (conn) => {
-                    conn.on('data', (incomingData) => {
-                        handleIncomingData(incomingData);
-                        alert('✅ 成功接收并合并了来自对方的数据！');
-                    });
-                });
-
-                peer.value.on('error', (err) => {
-                    peerStatus.value = '连接出现异常，请刷新重试';
-                    console.error('PeerJS 错误:', err);
-                });
-            };
-
-            const connectAndSync = () => {
-                if (!peer.value || !targetPeerId.value) return;
-                
-                peerStatus.value = `正在连接 ${targetPeerId.value} ...`;
-                const conn = peer.value.connect(targetPeerId.value);
-                
-                conn.on('open', () => {
-                    // 发送本机数据
-                    const localData = {
-                        visited: visitedRecords.value,
-                        planned: plannedParks.value,
-                        notes: parkNotes.value
-                    };
-                    conn.send(localData);
-                    peerStatus.value = '数据发送成功！正在等待对方响应...';
-                    alert('📤 本机数据已发送给对方！对方设备若也想发给你，请在对方设备上点击发送。');
-                });
-
-                conn.on('error', (err) => {
-                    alert('连接失败，请确认对方的连接码是否正确且页面保持打开状态。');
-                    peerStatus.value = '发送失败';
-                });
-            };
-
-            const handleIncomingData = (data) => {
-                if (!data) return;
-                // 数据智能合并逻辑
-                // 1. 合并打卡记录 (取最高次数)
-                if (data.visited) {
-                    for (const [park, count] of Object.entries(data.visited)) {
-                        visitedRecords.value[park] = Math.max(visitedRecords.value[park] || 0, count);
-                    }
-                }
-                // 2. 合并计划列表 (去重合并)
-                if (data.planned) {
-                    const mergedPlan = new Set([...plannedParks.value, ...data.planned]);
-                    plannedParks.value = Array.from(mergedPlan);
-                }
-                // 3. 合并备注 (如果对方有备注，直接覆盖本地该条备注；若本地有对方没有，保留本地)
-                if (data.notes) {
-                    for (const [park, note] of Object.entries(data.notes)) {
-                        if (note.trim() !== '') {
-                            parkNotes.value[park] = note;
-                        }
-                    }
-                }
-            };
-
-            // 当切换到同步 Tab 时初始化 Peer
-            watch(currentTab, (newTab) => {
-                if (newTab === 'sync' && !peer.value) {
-                    initPeer();
-                }
-            });
-
-            // ====================== 手动 JSON 导出/导入逻辑 ======================
-            const exportData = () => {
-                const data = {
-                    visited: visitedRecords.value,
-                    planned: plannedParks.value,
-                    notes: parkNotes.value,
-                    exportDate: new Date().toISOString()
-                };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `北京公园年票数据备份_${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            };
-
-            const importData = (event) => {
-                const file = event.target.files[0];
-                if (!file) return;
-                
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        if(confirm('检测到备份文件，将合并到当前设备中，是否继续？')) {
-                            handleIncomingData(data); // 复用 P2P 的智能合并逻辑
-                            alert('✅ 数据导入成功！');
-                        }
-                    } catch (err) {
-                        alert('解析 JSON 文件失败，文件可能已损坏。');
-                    }
-                    event.target.value = ''; // 清空 input 以便下次选同一个文件
-                };
-                reader.readAsText(file);
-            };
-
-
-            // ====================== 基础业务逻辑 ======================
             onMounted(async () => {
                 try {
                     const response = await fetch('cleaned_parks_2026.json');
@@ -311,42 +200,99 @@
                 }
             });
 
-            const startEditNote = (name) => {
-                editingNoteName.value = name;
-                tempNoteText.value = parkNotes.value[name] || '';
+            // ====================== P2P & 文件同步逻辑 ======================
+            // (此处与上版代码逻辑完全一致，保留所有极客同步功能)
+            const peer = ref(null);
+            const myPeerId = ref('');
+            const targetPeerId = ref('');
+            const peerStatus = ref('正在连接到信令服务器...');
+
+            const initPeer = () => {
+                const randomId = Math.floor(1000 + Math.random() * 9000).toString();
+                peer.value = new Peer('park-' + randomId);
+                peer.value.on('open', (id) => { myPeerId.value = id; peerStatus.value = '在线等待连接... (可接收数据)'; });
+                peer.value.on('connection', (conn) => {
+                    conn.on('data', (incomingData) => { handleIncomingData(incomingData); alert('✅ 成功接收并合并了来自对方的数据！'); });
+                });
+                peer.value.on('error', (err) => { peerStatus.value = '连接异常'; });
             };
-            const saveNote = (name) => {
-                if (tempNoteText.value.trim() === '') {
-                    delete parkNotes.value[name];
-                } else {
-                    parkNotes.value[name] = tempNoteText.value.trim();
+
+            const connectAndSync = () => {
+                if (!peer.value || !targetPeerId.value) return;
+                peerStatus.value = `正在连接 ${targetPeerId.value} ...`;
+                const conn = peer.value.connect(targetPeerId.value);
+                conn.on('open', () => {
+                    conn.send({ visited: visitedRecords.value, planned: plannedParks.value, notes: parkNotes.value });
+                    peerStatus.value = '数据发送成功！正在等待对方响应...';
+                    alert('📤 数据发送成功！');
+                });
+                conn.on('error', () => { alert('连接失败'); peerStatus.value = '发送失败'; });
+            };
+
+            const handleIncomingData = (data) => {
+                if (!data) return;
+                if (data.visited) {
+                    for (const [park, count] of Object.entries(data.visited)) {
+                        visitedRecords.value[park] = Math.max(visitedRecords.value[park] || 0, count);
+                    }
                 }
+                if (data.planned) {
+                    plannedParks.value = Array.from(new Set([...plannedParks.value, ...data.planned]));
+                }
+                if (data.notes) {
+                    for (const [park, note] of Object.entries(data.notes)) {
+                        if (note.trim() !== '') parkNotes.value[park] = note;
+                    }
+                }
+            };
+
+            watch(currentTab, (newTab) => { if (newTab === 'sync' && !peer.value) initPeer(); });
+
+            const exportData = () => {
+                const data = { visited: visitedRecords.value, planned: plannedParks.value, notes: parkNotes.value, exportDate: new Date().toISOString() };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = `北京公园年票数据备份_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+            };
+
+            const importData = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if(confirm('检测到备份文件，将合并到当前设备中，是否继续？')) { handleIncomingData(data); alert('✅ 数据导入成功！'); }
+                    } catch (err) { alert('解析 JSON 文件失败。'); }
+                    event.target.value = '';
+                };
+                reader.readAsText(file);
+            };
+
+            // ====================== 基础业务逻辑 ======================
+            const startEditNote = (name) => { editingNoteName.value = name; tempNoteText.value = parkNotes.value[name] || ''; };
+            const saveNote = (name) => {
+                if (tempNoteText.value.trim() === '') delete parkNotes.value[name];
+                else parkNotes.value[name] = tempNoteText.value.trim();
                 editingNoteName.value = null;
             };
 
             const getVisitCount = (name) => visitedRecords.value[name] || 0;
             const isPlanned = (name) => plannedParks.value.includes(name);
             const isFinished = (park) => park.limit > 0 && getVisitCount(park.name) >= park.limit;
-
             const togglePlan = (name) => {
-                if (isPlanned(name)) {
-                    plannedParks.value = plannedParks.value.filter(p => p !== name);
-                } else {
-                    plannedParks.value.push(name);
-                }
+                if (isPlanned(name)) plannedParks.value = plannedParks.value.filter(p => p !== name);
+                else plannedParks.value.push(name);
             };
-
             const addVisit = (park) => {
                 if (isFinished(park)) return;
                 visitedRecords.value[park.name] = getVisitCount(park.name) + 1;
             };
-
             const removeVisit = (park) => {
                 if (getVisitCount(park.name) > 0) {
                     visitedRecords.value[park.name]--;
-                    if (visitedRecords.value[park.name] === 0) {
-                        delete visitedRecords.value[park.name];
-                    }
+                    if (visitedRecords.value[park.name] === 0) delete visitedRecords.value[park.name];
                 }
             };
 
@@ -354,9 +300,7 @@
                 let sum = 0;
                 for (let parkName in visitedRecords.value) {
                     let parkInfo = parks.value.find(p => p.name === parkName);
-                    if (parkInfo && !isNaN(parseFloat(parkInfo.price))) {
-                        sum += parseFloat(parkInfo.price) * visitedRecords.value[parkName];
-                    }
+                    if (parkInfo && !isNaN(parseFloat(parkInfo.price))) sum += parseFloat(parkInfo.price) * visitedRecords.value[parkName];
                 }
                 return sum.toFixed(1);
             });
@@ -364,34 +308,33 @@
             const parseDateToTimestamp = (dateStr, isEnd = false) => {
                 let parts = dateStr.trim().split('.');
                 let y = 2026, m = 1, d = 1;
-                if (parts.length === 2) {
-                    m = parseInt(parts[0], 10);
-                    d = parseInt(parts[1], 10);
-                } else if (parts.length === 3) {
-                    y = parseInt(parts[0], 10);
-                    if (y === 26 || y === 0) y = 2026; 
-                    m = parseInt(parts[1], 10);
-                    d = parseInt(parts[2], 10);
-                }
+                if (parts.length === 2) { m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); } 
+                else if (parts.length === 3) { y = parseInt(parts[0], 10); if (y === 26 || y === 0) y = 2026; m = parseInt(parts[1], 10); d = parseInt(parts[2], 10); }
                 const dateObj = new Date(y, m - 1, d);
-                if (isEnd) {
-                    dateObj.setHours(23, 59, 59, 999);
-                } else {
-                    dateObj.setHours(0, 0, 0, 0);
-                }
+                if (isEnd) dateObj.setHours(23, 59, 59, 999);
+                else dateObj.setHours(0, 0, 0, 0);
                 return dateObj.getTime();
+            };
+
+            // 获取公园最早开放时间 (用于"我的计划"排序)
+            const getEarliestStart = (validTimeString) => {
+                if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return 0; // 全年的排最前面
+                const ranges = validTimeString.split('&');
+                let minStart = Infinity;
+                for (let range of ranges) {
+                    let [startStr] = range.split('-');
+                    if(!startStr) continue;
+                    const start = parseDateToTimestamp(startStr, false);
+                    if (start < minStart) minStart = start;
+                }
+                return minStart;
             };
 
             const getParkStatus = (validTimeString) => {
                 const today = new Date().getTime();
-                if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) {
-                    return { text: '开放中', color: 'text-green-600 bg-green-100', isExpired: false };
-                }
+                if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return { text: '开放中', color: 'text-green-600 bg-green-100', isExpired: false };
                 const ranges = validTimeString.split('&');
-                let isAvailableNow = false;
-                let minDaysToStart = Infinity;
-                let minDaysToEnd = Infinity;
-                let isAllExpired = true; 
+                let isAvailableNow = false; let minDaysToStart = Infinity; let minDaysToEnd = Infinity; let isAllExpired = true; 
 
                 for (let range of ranges) {
                     let [startStr, endStr] = range.split('-');
@@ -400,8 +343,7 @@
                     const end = parseDateToTimestamp(endStr, true);
 
                     if (today >= start && today <= end) {
-                        isAvailableNow = true;
-                        isAllExpired = false;
+                        isAvailableNow = true; isAllExpired = false;
                         const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
                         if (diff < minDaysToEnd) minDaysToEnd = diff;
                     } else if (today < start) {
@@ -421,32 +363,57 @@
                 }
             };
 
-            const checkAvailableInMonth = (validTimeString, monthNum) => {
-                if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return true;
-                const ranges = validTimeString.split('&');
-                const targetMonthStart = new Date(2026, monthNum - 1, 1).getTime();
-                const targetMonthEnd = new Date(2026, monthNum, 0, 23, 59, 59, 999).getTime(); 
-
-                for (let range of ranges) {
-                    let [startStr, endStr] = range.split('-');
-                    if(!startStr || !endStr) continue;
-                    const start = parseDateToTimestamp(startStr, false);
-                    const end = parseDateToTimestamp(endStr, true);
-                    if (start <= targetMonthEnd && end >= targetMonthStart) return true;
-                }
-                return false;
-            };
-
-            const planningData = computed(() => {
-                let months = [];
+            // ====================== 日历生成核心逻辑 ======================
+            const calendarData = computed(() => {
+                const year = 2026;
+                const cal = [];
+                // 仅针对计划中、未去完、且未过期的景点进行日历渲染
                 let activePlannedParks = parks.value.filter(p => isPlanned(p.name) && !isFinished(p) && !getParkStatus(p.valid_time).isExpired);
-                for (let i = 1; i <= 12; i++) {
-                    let availableParksInThisMonth = activePlannedParks.filter(p => checkAvailableInMonth(p.valid_time, i));
-                    months.push({ monthNum: i, parks: availableParksInThisMonth });
+
+                for (let m = 0; m < 12; m++) {
+                    const daysInMonth = new Date(year, m + 1, 0).getDate();
+                    const firstDayOfWeek = new Date(year, m, 1).getDay(); // 0(Sun) - 6(Sat)
+                    const days = [];
+
+                    // 填充月初空白格子
+                    for (let i = 0; i < firstDayOfWeek; i++) days.push({ empty: true });
+
+                    for (let d = 1; d <= daysInMonth; d++) {
+                        const targetTime = new Date(year, m, d, 12, 0, 0).getTime();
+                        
+                        const availableParksForDay = activePlannedParks.filter(p => {
+                            if (!p.valid_time || p.valid_time.includes('全年') || p.valid_time.includes('2027')) return true;
+                            const ranges = p.valid_time.split('&');
+                            for (let range of ranges) {
+                                let [startStr, endStr] = range.split('-');
+                                if(!startStr || !endStr) continue;
+                                const start = parseDateToTimestamp(startStr, false);
+                                const end = parseDateToTimestamp(endStr, true);
+                                if (targetTime >= start && targetTime <= end) return true;
+                            }
+                            return false;
+                        });
+
+                        days.push({ empty: false, date: d, count: availableParksForDay.length, parks: availableParksForDay });
+                    }
+                    cal.push({ month: m + 1, days: days });
                 }
-                return months;
+                return cal;
             });
 
+            const getCalendarColor = (count) => {
+                if (count === undefined || count === 0) return 'bg-gray-100 text-gray-400 border border-transparent';
+                if (count <= 2) return 'bg-purple-200 text-purple-800 font-bold border border-purple-300';
+                if (count <= 5) return 'bg-purple-400 text-white font-bold shadow-sm';
+                return 'bg-purple-600 text-white font-bold shadow';
+            };
+
+            const selectDay = (month, dayObj) => {
+                if (dayObj.empty) return;
+                selectedDay.value = { month, date: dayObj.date, parks: dayObj.parks };
+            };
+
+            // ====================== 列表排序 ======================
             const filteredParks = computed(() => {
                 let result = parks.value;
                 if (currentTab.value === 'planned') {
@@ -454,20 +421,28 @@
                 } else if (currentTab.value === 'visited') {
                     result = result.filter(p => getVisitCount(p.name) > 0);
                 }
+                
                 return result.sort((a, b) => {
+                    // 1. 先按状态权重排序（正常>已完成>已过期）
                     const getWeight = (park) => {
                         if (getParkStatus(park.valid_time).isExpired) return 3;
                         if (isFinished(park)) return 2;
                         return 1;
                     };
-                    return getWeight(a) - getWeight(b);
+                    const weightDiff = getWeight(a) - getWeight(b);
+                    if (weightDiff !== 0) return weightDiff;
+                    
+                    // 2. 如果都在计划列表中，则按“开放时间早晚”排序
+                    if (currentTab.value === 'planned') {
+                        return getEarliestStart(a.valid_time) - getEarliestStart(b.valid_time);
+                    }
+                    return 0;
                 });
             });
 
             const getBorderColor = (park) => {
                 const status = getParkStatus(park.valid_time);
-                if (status.isExpired) return 'border-gray-300 opacity-60 bg-gray-50'; 
-                if (isFinished(park)) return 'border-gray-200 opacity-60 bg-gray-50'; 
+                if (status.isExpired || isFinished(park)) return 'border-gray-200 opacity-60 bg-gray-50'; 
                 if (getVisitCount(park.name) > 0) return 'border-orange-400';
                 if (isPlanned(park.name)) return 'border-blue-400';
                 return 'border-green-400';
@@ -476,7 +451,7 @@
             return {
                 parks, currentTab, visitedRecords, plannedParks, totalSaved,
                 parkNotes, editingNoteName, tempNoteText, startEditNote, saveNote,
-                planningData,
+                calendarData, getCalendarColor, selectedDay, selectDay,
                 getVisitCount, isPlanned, togglePlan, addVisit, removeVisit,
                 filteredParks, getBorderColor, isFinished, getParkStatus,
                 myPeerId, targetPeerId, peerStatus, connectAndSync, exportData, importData
