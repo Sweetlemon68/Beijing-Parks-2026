@@ -26,9 +26,32 @@
         <button @click="currentTab = 'all'" :class="currentTab === 'all' ? 'bg-green-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">所有景点</button>
         <button @click="currentTab = 'planned'" :class="currentTab === 'planned' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">我的计划 ({{ plannedParks.length }})</button>
         <button @click="currentTab = 'visited'" :class="currentTab === 'visited' ? 'bg-orange-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">已打卡</button>
+        <button @click="currentTab = 'planning'" :class="currentTab === 'planning' ? 'bg-purple-600 text-white' : 'bg-white text-gray-600'" class="px-4 py-2 rounded-lg shadow font-medium transition whitespace-nowrap">📅 智能规划</button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div v-if="currentTab === 'planning'" class="space-y-6">
+        <div class="bg-blue-50 p-4 rounded-lg text-blue-800 text-sm">
+            💡 这里的日历基于你“<b>已加入计划</b>”且“<b>次数未用完</b>”的景点，按照它们的开放时间自动分配。帮助你合理规划每个月的行程！
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-for="month in planningData" :key="month.monthNum" class="bg-white rounded-xl shadow p-5 border-t-4 border-purple-400">
+                <h3 class="text-xl font-bold text-purple-700 mb-3 border-b pb-2">{{ month.monthNum }} 月 <span class="text-sm text-gray-500 font-normal ml-2">可去 {{ month.parks.length }} 个计划景点</span></h3>
+                
+                <div v-if="month.parks.length === 0" class="text-gray-400 text-sm py-2">
+                    本月暂无计划内的开放景点
+                </div>
+                <ul v-else class="space-y-2">
+                    <li v-for="park in month.parks" :key="park.name" class="flex justify-between items-center text-sm">
+                        <span class="font-medium text-gray-700">{{ park.name }}</span>
+                        <span class="text-xs text-gray-500 truncate ml-2 text-right w-1/2">{{ park.valid_time }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div v-for="park in filteredParks" :key="park.name" class="bg-white rounded-xl shadow p-5 border-l-4 transition hover:shadow-md" :class="getBorderColor(park)">
             <div class="flex justify-between items-start">
                 <div>
@@ -53,9 +76,26 @@
             
             <p v-if="park.rules" class="text-xs text-gray-500 mt-2 line-clamp-2" :title="park.rules">规则: {{ park.rules }}</p>
 
+            <div class="mt-3 bg-yellow-50 p-3 rounded text-sm">
+                <div v-if="editingNoteName !== park.name" class="flex justify-between items-start">
+                    <div class="text-gray-700 whitespace-pre-wrap flex-1">
+                        <span class="text-yellow-600 font-bold">📝 备注：</span>
+                        {{ parkNotes[park.name] || '暂无备注（如交通方式、必带物品等）' }}
+                    </div>
+                    <button @click="startEditNote(park.name)" class="text-yellow-600 hover:text-yellow-800 ml-2">修改</button>
+                </div>
+                <div v-else class="flex flex-col">
+                    <textarea v-model="tempNoteText" rows="2" class="w-full p-2 border border-yellow-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-500" placeholder="请输入交通方式等备注信息..."></textarea>
+                    <div class="flex justify-end mt-2 space-x-2">
+                        <button @click="editingNoteName = null" class="px-3 py-1 text-gray-500 hover:text-gray-700 bg-gray-200 rounded">取消</button>
+                        <button @click="saveNote(park.name)" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">保存</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                 <button @click="togglePlan(park.name)" class="text-sm font-medium transition" :class="isPlanned(park.name) ? 'text-blue-600' : 'text-gray-400 hover:text-blue-500'">
-                    {{ isPlanned(park.name) ? '★ 已加入计划' : '☆ 加入计划' }}
+                    {{ isPlanned(park.name) ? '★ 已计划' : '☆ 加计划' }}
                 </button>
                 
                 <div class="flex items-center space-x-3">
@@ -80,11 +120,18 @@
             const parks = ref([]);
             const currentTab = ref('all');
             
+            // 旧有的 LocalStorage 保持不变
             const visitedRecords = ref(JSON.parse(localStorage.getItem('annual_pass_visited')) || {});
             const plannedParks = ref(JSON.parse(localStorage.getItem('annual_pass_planned')) || []);
+            
+            // 新增：独立的备注 LocalStorage
+            const parkNotes = ref(JSON.parse(localStorage.getItem('annual_pass_notes')) || {});
+            const editingNoteName = ref(null);
+            const tempNoteText = ref('');
 
             watch(visitedRecords, (newVal) => { localStorage.setItem('annual_pass_visited', JSON.stringify(newVal)); }, { deep: true });
             watch(plannedParks, (newVal) => { localStorage.setItem('annual_pass_planned', JSON.stringify(newVal)); }, { deep: true });
+            watch(parkNotes, (newVal) => { localStorage.setItem('annual_pass_notes', JSON.stringify(newVal)); }, { deep: true });
 
             onMounted(async () => {
                 try {
@@ -94,6 +141,20 @@
                     console.error("加载数据失败");
                 }
             });
+
+            // --- 备注功能逻辑 ---
+            const startEditNote = (name) => {
+                editingNoteName.value = name;
+                tempNoteText.value = parkNotes.value[name] || '';
+            };
+            const saveNote = (name) => {
+                if (tempNoteText.value.trim() === '') {
+                    delete parkNotes.value[name];
+                } else {
+                    parkNotes.value[name] = tempNoteText.value.trim();
+                }
+                editingNoteName.value = null;
+            };
 
             const getVisitCount = (name) => visitedRecords.value[name] || 0;
             const isPlanned = (name) => plannedParks.value.includes(name);
@@ -132,11 +193,54 @@
                 return sum.toFixed(1);
             });
 
-            // 核心：时间解析与状态提醒功能
-            const getParkStatus = (validTimeString) => {
-                // 使用设备的当前时间
-                const today = new Date().getTime();
+            // 智能规划：检测某个公园在某个月份是否可用
+            const checkAvailableInMonth = (validTimeString, monthNum) => {
+                if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return true;
                 
+                const ranges = validTimeString.split('&');
+                const targetMonthStart = new Date(2026, monthNum - 1, 1).getTime();
+                const targetMonthEnd = new Date(2026, monthNum, 0, 23, 59, 59).getTime(); // 月底最后一天
+
+                for (let range of ranges) {
+                    let [startStr, endStr] = range.split('-');
+                    if(!startStr || !endStr) continue;
+                    
+                    startStr = startStr.trim().replace('026.', '2026.');
+                    endStr = endStr.trim().replace('026.', '2026.');
+                    if (startStr.split('.').length === 2) startStr = '2026.' + startStr; 
+                    if (endStr.split('.').length === 2) endStr = '2026.' + endStr;
+                    
+                    const start = new Date(startStr.replace(/\./g, '/')).getTime();
+                    let endObj = new Date(endStr.replace(/\./g, '/'));
+                    endObj.setHours(23, 59, 59);
+                    const end = endObj.getTime();
+
+                    // 判断该时间段是否与目标月份有交集
+                    if (start <= targetMonthEnd && end >= targetMonthStart) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            // 智能规划：生成 1~12 月的计划数据
+            const planningData = computed(() => {
+                let months = [];
+                // 筛选出：在计划内 && 还未用完次数的景点
+                let activePlannedParks = parks.value.filter(p => isPlanned(p.name) && !isFinished(p));
+
+                for (let i = 1; i <= 12; i++) {
+                    let availableParksInThisMonth = activePlannedParks.filter(p => checkAvailableInMonth(p.valid_time, i));
+                    months.push({
+                        monthNum: i,
+                        parks: availableParksInThisMonth
+                    });
+                }
+                return months;
+            });
+
+            const getParkStatus = (validTimeString) => {
+                const today = new Date().getTime();
                 if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) {
                     return { code: 'available', text: '开放中', color: 'text-green-600 bg-green-100' };
                 }
@@ -150,7 +254,6 @@
                     let [startStr, endStr] = range.split('-');
                     if(!startStr || !endStr) continue;
                     
-                    // 修正错别字并补全前缀
                     startStr = startStr.trim().replace('026.', '2026.');
                     endStr = endStr.trim().replace('026.', '2026.');
                     if (startStr.split('.').length === 2) startStr = '2026.' + startStr; 
@@ -158,7 +261,6 @@
                     
                     const startObj = new Date(startStr.replace(/\./g, '/'));
                     const endObj = new Date(endStr.replace(/\./g, '/'));
-                    // 确保结束时间算到当天的 23:59:59
                     endObj.setHours(23, 59, 59, 999);
 
                     const start = startObj.getTime();
@@ -174,7 +276,6 @@
                     }
                 }
 
-                // 根据计算结果返回对应的文案和颜色
                 if (isAvailableNow) {
                     if (minDaysToEnd <= 15) return { text: `仅剩 ${minDaysToEnd} 天`, color: 'text-red-600 bg-red-100' };
                     return { text: '开放中', color: 'text-green-600 bg-green-100' };
@@ -193,7 +294,6 @@
                     result = result.filter(p => getVisitCount(p.name) > 0);
                 }
                 
-                // 排序：次数用完的垫底，开放中的靠前
                 return result.sort((a, b) => {
                     let aFin = isFinished(a);
                     let bFin = isFinished(b);
@@ -212,6 +312,8 @@
 
             return {
                 parks, currentTab, visitedRecords, plannedParks, totalSaved,
+                parkNotes, editingNoteName, tempNoteText, startEditNote, saveNote,
+                planningData,
                 getVisitCount, isPlanned, togglePlan, addVisit, removeVisit,
                 filteredParks, getBorderColor, isFinished, getParkStatus
             };
