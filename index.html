@@ -14,7 +14,7 @@
     <header class="bg-white rounded-xl shadow p-6 mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
             <h1 class="text-2xl font-bold text-green-600">🌲 2026 北京公园年票助手</h1>
-            <p class="text-sm text-gray-500 mt-1">云端部署 · 天气联动 · 专属规划</p>
+            <p class="text-sm text-gray-500 mt-1">云端部署 · 天气联动 · 算法热力图</p>
         </div>
         <div class="mt-4 md:mt-0 bg-green-50 p-4 rounded-lg border border-green-200 text-center">
             <div class="text-sm text-green-700">累计省下门票</div>
@@ -60,19 +60,19 @@
     <div v-else-if="currentTab === 'planning'" class="space-y-6">
         <div class="bg-purple-50 p-4 rounded-lg text-purple-800 text-sm flex flex-col space-y-2">
             <div class="flex justify-between items-center">
-                <span>💡 日历颜色代表当天可游览的景点数。带有 🎯 标记的是你设定的“具体出行日”。</span>
-                <div class="flex space-x-1 text-xs items-center whitespace-nowrap">
+                <span>💡 热力图色彩基于 $\mu$ (平均值)与 $\sigma$ (标准差)动态分布。带有 🎯 为具体出行日。🟢 开始开放 🔴 最后一天。</span>
+                <div class="flex space-x-1 text-xs items-center whitespace-nowrap ml-2">
                     <span class="w-3 h-3 bg-gray-100 rounded inline-block border"></span> 0
-                    <span class="w-3 h-3 bg-purple-200 rounded inline-block ml-1"></span> 1-2
-                    <span class="w-3 h-3 bg-purple-400 rounded inline-block ml-1"></span> 3-5
-                    <span class="w-3 h-3 bg-purple-600 rounded inline-block ml-1"></span> 6+
+                    <span class="w-3 h-3 bg-purple-200 rounded inline-block ml-1"></span> 1-{{ calendarData.thresholds.t1 }}
+                    <span class="w-3 h-3 bg-purple-400 rounded inline-block ml-1"></span> {{ calendarData.thresholds.t1 + 1 }}-{{ calendarData.thresholds.t2 }}
+                    <span class="w-3 h-3 bg-purple-600 rounded inline-block ml-1"></span> {{ calendarData.thresholds.t2 + 1 }}+
                 </div>
             </div>
             <div v-if="weatherLoaded" class="text-xs text-blue-600">🌤️ 已同步北京未来16天真实天气预报。</div>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="month in calendarData" :key="month.month" class="bg-white rounded-xl shadow p-4 border-t-4 border-purple-400">
+            <div v-for="month in calendarData.months" :key="month.month" class="bg-white rounded-xl shadow p-4 border-t-4 border-purple-400">
                 <h3 class="text-lg font-bold text-purple-700 mb-3 text-center">2026年 {{ month.month }} 月</h3>
                 <div class="grid grid-cols-7 text-center text-xs text-gray-400 mb-1 font-bold">
                     <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
@@ -85,6 +85,11 @@
                         
                         <div v-if="day.hasExactPlan" class="absolute top-0.5 right-0.5 text-[10px]" title="设定的具体出行日">🎯</div>
                         
+                        <div v-if="!day.empty && (day.openingParks.length > 0 || day.closingParks.length > 0)" class="absolute bottom-1 right-1 flex space-x-0.5 z-20">
+                            <span v-if="day.openingParks.length > 0" class="w-1.5 h-1.5 rounded-full bg-green-400 shadow-sm" title="有景区今天开始开放"></span>
+                            <span v-if="day.closingParks.length > 0" class="w-1.5 h-1.5 rounded-full bg-red-400 shadow-sm" title="有景区今天最后一天开放"></span>
+                        </div>
+
                         <div v-if="day.weather" class="text-[10px] leading-tight text-center mt-auto opacity-90 z-10 flex flex-col items-center">
                             <span>{{ day.weather.icon }}</span>
                             <span class="scale-75 origin-top whitespace-nowrap">{{ day.weather.min }}~{{ day.weather.max }}°</span>
@@ -113,6 +118,9 @@
 
                             <div class="font-bold text-gray-800 text-lg mb-1">{{ park.name }} <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-normal align-middle ml-1">{{ park.region }}</span></div>
                             
+                            <div v-if="hasParkInArray(selectedDay.openingParks, park)" class="text-green-600 text-xs font-bold mb-1 flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> 今天是该景点首日开放！</div>
+                            <div v-if="hasParkInArray(selectedDay.closingParks, park)" class="text-red-500 text-xs font-bold mb-1 flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> 警告：今天过后该景点将关闭！</div>
+
                             <div class="text-xs text-gray-500 bg-gray-50 p-2 rounded">
                                 <div v-if="customPlans[park.name]?.timeRange" class="text-purple-600 font-bold mb-1">📅 专属设定时间：{{ customPlans[park.name].timeRange }}</div>
                                 <div>官方开放期：{{ park.valid_time }}</div>
@@ -216,11 +224,9 @@
             const parks = ref([]);
             const currentTab = ref('all');
             
-            // 数据存储
             const visitedRecords = ref(JSON.parse(localStorage.getItem('annual_pass_visited')) || {});
             const plannedParks = ref(JSON.parse(localStorage.getItem('annual_pass_planned')) || []);
             const parkNotes = ref(JSON.parse(localStorage.getItem('annual_pass_notes')) || {});
-            // 新增：专属规划存储 (存储 timeRange 和 exactDate)
             const customPlans = ref(JSON.parse(localStorage.getItem('annual_pass_custom_plans')) || {});
             
             const editingNoteName = ref(null);
@@ -229,7 +235,6 @@
             const tempExactDate = ref('');
             const selectedDay = ref(null); 
 
-            // 天气数据
             const weatherMap = ref({});
             const weatherLoaded = ref(false);
 
@@ -240,7 +245,6 @@
 
             const fetchWeather = async () => {
                 try {
-                    // 调用 Open-Meteo 获取北京地区未来 16 天天气（无需 API Key）
                     const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.9042&longitude=116.4074&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&forecast_days=16');
                     const data = await res.json();
                     if (data.daily) {
@@ -271,13 +275,13 @@
                 try {
                     const response = await fetch('cleaned_parks_2026.json');
                     parks.value = await response.json();
-                    fetchWeather(); // 获取天气
+                    fetchWeather();
                 } catch (error) {
                     console.error("加载数据失败");
                 }
             });
 
-            // ====================== P2P & 文件同步逻辑 (兼容 customPlans) ======================
+            // ====================== P2P & 文件同步逻辑 ======================
             const peer = ref(null);
             const myPeerId = ref('');
             const targetPeerId = ref('');
@@ -392,7 +396,7 @@
                 return sum.toFixed(1);
             });
 
-            const parseDateToTimestamp = (dateStr, isEnd = false) => {
+            const parseDateObj = (dateStr, isEnd = false) => {
                 let parts = dateStr.trim().split('.');
                 let y = 2026, m = 1, d = 1;
                 if (parts.length === 2) { m = parseInt(parts[0], 10); d = parseInt(parts[1], 10); } 
@@ -400,10 +404,14 @@
                 const dateObj = new Date(y, m - 1, d);
                 if (isEnd) dateObj.setHours(23, 59, 59, 999);
                 else dateObj.setHours(0, 0, 0, 0);
-                return dateObj.getTime();
+                return dateObj;
+            };
+            const parseDateToTimestamp = (dateStr, isEnd) => parseDateObj(dateStr, isEnd).getTime();
+
+            const formatYMD = (dateObj) => {
+                return `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
             };
 
-            // 获取公园最真实的判断时间（合并了用户自定义）
             const getEffectiveTimeStr = (park) => {
                 return customPlans.value[park.name]?.timeRange || park.valid_time;
             };
@@ -446,7 +454,7 @@
                 }
             };
 
-            // ====================== 日历生成核心逻辑 ======================
+            // ====================== 核心算法：生成日历与统计阈值 ======================
             const isExactDayForPark = (park, dayInfo) => {
                 const exact = customPlans.value[park.name]?.exactDate;
                 if (!exact) return false;
@@ -454,10 +462,15 @@
                 return exact === formattedDay;
             };
 
+            const hasParkInArray = (arr, park) => {
+                return arr.some(p => p.name === park.name);
+            };
+
             const calendarData = computed(() => {
                 const year = 2026;
                 const cal = [];
                 let activePlannedParks = parks.value.filter(p => isPlanned(p.name) && !isFinished(p) && !getParkStatus(p).isExpired);
+                let allCounts = []; // 用于收集统计基数
 
                 for (let m = 0; m < 12; m++) {
                     const daysInMonth = new Date(year, m + 1, 0).getDate();
@@ -471,9 +484,10 @@
                         const dateStr = `${year}-${String(m+1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                         
                         let hasExactPlan = false;
+                        let openingParksForDay = [];
+                        let closingParksForDay = [];
 
                         const availableParksForDay = activePlannedParks.filter(p => {
-                            // 优先判断用户设定的“特定日期”
                             const customDate = customPlans.value[p.name]?.exactDate;
                             if (customDate === dateStr) {
                                 hasExactPlan = true;
@@ -483,46 +497,88 @@
                             const validTimeString = getEffectiveTimeStr(p);
                             if (!validTimeString || validTimeString.includes('全年') || validTimeString.includes('2027')) return true;
                             
+                            let isAvail = false;
                             const ranges = validTimeString.split('&');
                             for (let range of ranges) {
                                 let [startStr, endStr] = range.split('-');
                                 if(!startStr || !endStr) continue;
                                 try {
-                                    const start = parseDateToTimestamp(startStr, false);
-                                    const end = parseDateToTimestamp(endStr, true);
-                                    if (targetTime >= start && targetTime <= end) return true;
+                                    const startObj = parseDateObj(startStr, false);
+                                    const endObj = parseDateObj(endStr, true);
+                                    
+                                    if (targetTime >= startObj.getTime() && targetTime <= endObj.getTime()) {
+                                        isAvail = true;
+                                    }
+                                    // 检查是否为边界开放日/闭园日
+                                    if (dateStr === formatYMD(startObj)) openingParksForDay.push(p);
+                                    if (dateStr === formatYMD(endObj)) closingParksForDay.push(p);
+
                                 } catch(e){}
                             }
-                            return false;
+                            return isAvail;
                         });
 
-                        // 注入天气
-                        const weather = weatherMap.value[dateStr] || null;
+                        const count = availableParksForDay.length;
+                        if (count > 0) allCounts.push(count); // 收集正数用于动态算法计算
 
                         days.push({ 
                             empty: false, 
                             date: d, 
-                            count: availableParksForDay.length, 
+                            count: count, 
                             parks: availableParksForDay,
                             hasExactPlan: hasExactPlan,
-                            weather: weather
+                            openingParks: openingParksForDay,
+                            closingParks: closingParksForDay,
+                            weather: weatherMap.value[dateStr] || null
                         });
                     }
                     cal.push({ month: m + 1, days: days });
                 }
-                return cal;
+
+                // --- 算法核心：基于平均数与方差的动态阈值生成 ---
+                let t1 = 1, t2 = 2, t3 = 4;
+                if (allCounts.length > 0) {
+                    const mean = allCounts.reduce((a, b) => a + b, 0) / allCounts.length;
+                    const variance = allCounts.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / allCounts.length;
+                    const stdDev = Math.sqrt(variance);
+                    
+                    // 基于统计数据动态切分 3 档
+                    t1 = Math.max(1, Math.round(mean - stdDev * 0.5));
+                    t2 = Math.round(mean + stdDev * 0.5);
+                    t3 = Math.round(mean + stdDev * 1.5);
+                    
+                    // 确保层级递进不重叠
+                    if (t1 < 1) t1 = 1;
+                    if (t2 <= t1) t2 = t1 + 1;
+                    if (t3 <= t2) t3 = t2 + 1;
+                }
+
+                return {
+                    months: cal,
+                    thresholds: { t1, t2, t3 }
+                };
             });
 
+            // 获取动态分配的颜色
             const getCalendarColor = (count) => {
                 if (count === undefined || count === 0) return 'bg-gray-100 text-gray-400 border border-transparent';
-                if (count <= 2) return 'bg-purple-200 text-purple-800 font-bold border border-purple-300';
-                if (count <= 5) return 'bg-purple-400 text-white font-bold shadow-sm';
+                const t1 = calendarData.value.thresholds.t1;
+                const t2 = calendarData.value.thresholds.t2;
+
+                if (count <= t1) return 'bg-purple-200 text-purple-800 font-bold border border-purple-300';
+                if (count <= t2) return 'bg-purple-400 text-white font-bold shadow-sm';
                 return 'bg-purple-600 text-white font-bold shadow';
             };
 
             const selectDay = (month, dayObj) => {
                 if (dayObj.empty) return;
-                selectedDay.value = { month, date: dayObj.date, parks: dayObj.parks, weather: dayObj.weather };
+                selectedDay.value = { 
+                    month, date: dayObj.date, 
+                    parks: dayObj.parks, 
+                    weather: dayObj.weather,
+                    openingParks: dayObj.openingParks,
+                    closingParks: dayObj.closingParks
+                };
             };
 
             // ====================== 列表排序 ======================
@@ -558,7 +614,7 @@
                 parks, currentTab, visitedRecords, plannedParks, totalSaved,
                 parkNotes, customPlans, editingNoteName, tempNoteText, tempCustomRange, tempExactDate, 
                 startEditNote, saveNote,
-                calendarData, getCalendarColor, selectedDay, selectDay, isExactDayForPark,
+                calendarData, getCalendarColor, selectedDay, selectDay, isExactDayForPark, hasParkInArray,
                 weatherLoaded,
                 getVisitCount, isPlanned, togglePlan, addVisit, removeVisit,
                 filteredParks, getBorderColor, isFinished, getParkStatus,
